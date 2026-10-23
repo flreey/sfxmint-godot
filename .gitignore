@@ -1,0 +1,16 @@
+.godot/
+example/.godot/
+example/addons/
+credential-helper/target/
+addons/sfxmint/bin/*
+!addons/sfxmint/bin/.gdignore
+dist/
+tests/artifacts/
+tests/.wrangler/
+/audio/
+
+.env*
+.dev.vars*
+node_modules/
+.venv*/
+.DS_Store

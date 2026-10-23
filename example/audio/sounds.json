@@ -1,0 +1,33 @@
+{
+  "base": "",
+  "content_notice": "Procedural CC0 test tone. Demonstrates local event playback, not generation quality.",
+  "files": {
+    "fixture-coin-pickup-73213aa3": {
+      "ai_generated": false,
+      "bytes": 44144,
+      "content_check": {
+        "status": "unverified"
+      },
+      "duration_ms": 1000.0,
+      "file": "fixture-coin-pickup-73213aa3.wav",
+      "format": "wav",
+      "label": null,
+      "license": "CC0-1.0",
+      "loopable": false,
+      "page_url": null,
+      "resource_path": "res://audio/sfxmint/fixture-coin-pickup-73213aa3.wav",
+      "sfxmint_id": "library:test-coin",
+      "sha256": "73213aa37e46b59562f1fa7f59a5b1270068f007b0bb5dd6b760d6b4209827bd",
+      "slug": "test-coin",
+      "source_url": "",
+      "title": "Fixture coin pickup",
+      "unverified_requirements": [],
+      "source_note": "Procedural test tone from tests/mock-worker.ts; not a catalog sound or model output."
+    }
+  },
+  "generated_by": "sfxmint-godot/0.1",
+  "license": "CC0-1.0",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "origin": "local-test-fixture",
+  "version": 1
+}

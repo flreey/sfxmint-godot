@@ -1,0 +1,7 @@
+{
+  "name": "sfxmint-godot-local-fixture",
+  "main": "mock-worker.ts",
+  "compatibility_date": "2026-01-01",
+  "dev": { "ip": "127.0.0.1", "port": 8797 },
+  "observability": { "enabled": false }
+}
