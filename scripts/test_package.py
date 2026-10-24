@@ -20,8 +20,15 @@ with zipfile.ZipFile(ROOT/f'dist/sfxmint-godot-{version}-plugin.zip') as z:
     assert 'addons/sfxmint/plugin.cfg' in z.namelist()
     assert 'addons/sfxmint/README.md' in z.namelist()
     assert all(n.startswith('addons/sfxmint/') for n in z.namelist()), 'plugin must not install files over a project root'
-    assert len([n for n in z.namelist() if '/bin/sfxmint-credentials-' in n]) == 5
+    assert not any('/bin/' in n for n in z.namelist())
     assert z.read('addons/sfxmint/panel.gd') == (ROOT/'addons/sfxmint/panel.gd').read_bytes()
+for kind in ['plugin', 'example']:
+    with zipfile.ZipFile(ROOT/f'dist/sfxmint-godot-{version}-{kind}.zip') as z:
+        for entry in z.infolist():
+            assert not ((entry.external_attr >> 16) & 0o111), entry.filename
+            assert Path(entry.filename).suffix.lower() not in {'.exe', '.dll', '.so', '.dylib', '.a', '.o', '.wasm', '.pck'}, entry.filename
+            assert not z.read(entry)[:4] in {b'\x7fELF', b'\xcf\xfa\xed\xfe', b'\xce\xfa\xed\xfe', b'\xfe\xed\xfa\xcf', b'\xfe\xed\xfa\xce', b'\xca\xfe\xba\xbe', b'\xbe\xba\xfe\xca', b'\x00asm'}, entry.filename
+            assert not z.read(entry).startswith(b'MZ'), entry.filename
 with tempfile.TemporaryDirectory(prefix='sfxmint-plugin-install-') as folder:
     target = Path(folder)
     with zipfile.ZipFile(ROOT/f'dist/sfxmint-godot-{version}-plugin.zip') as z:
@@ -45,4 +52,4 @@ with tempfile.TemporaryDirectory(prefix='sfxmint-zip-install-') as folder:
         print(r.stdout)
         assert r.returncode == 0 and 'SCRIPT ERROR:' not in r.stdout and 'Parse Error:' not in r.stdout
         if args[0] == '--script': assert 'PACKAGED OFFLINE DEMO: PASS' in r.stdout
-print('PACKAGE INSTALL RESULT: PASS; five helpers included; clean import; demo plays after addon removal')
+print('PACKAGE INSTALL RESULT: PASS; no precompiled binaries; clean import; demo plays after addon removal')

@@ -105,9 +105,10 @@ func setup(parent: Control) -> void:
 	paste_button = button(key_row, "Paste", func(): key_input.text = DisplayServer.clipboard_get().strip_edges(); connect_button.disabled = key_input.text.is_empty())
 	remember = CheckBox.new()
 	remember.text = "Remember on this device"
-	remember.button_pressed = true
+	remember.button_pressed = host.credentials.available()
+	remember.disabled = not host.credentials.available()
 	box.add_child(remember)
-	label(box, "Saved in your system's secure storage. Never included in your project or game export.")
+	label(box, "Saved in your system's secure storage. Never included in your project or game export." if host.credentials.available() else "Connected for this editor session only. Your key is never saved in the project.")
 	connect_message = label(box, "")
 	connect_message.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	box.add_child(HSeparator.new())
@@ -190,7 +191,7 @@ func set_connecting(value: bool) -> void:
 	connect_button.text = "Connecting…" if value else "Connect"
 	connect_button.disabled = value or key_input.text.strip_edges().is_empty()
 	key_input.editable = not value
-	remember.disabled = value
+	remember.disabled = value or not host.credentials.available()
 
 func show_settings(preferences: Dictionary) -> void:
 	folder.text = str(preferences.get("directory", "res://audio/sfxmint/"))

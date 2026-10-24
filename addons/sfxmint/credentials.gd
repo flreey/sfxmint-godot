@@ -13,6 +13,10 @@ func executable() -> String:
 	var filename := "sfxmint-credentials-" + platform + "-" + arch + (".exe" if platform == "windows" else "")
 	return ProjectSettings.globalize_path(get_script().resource_path.get_base_dir().path_join("bin").path_join(filename))
 
+func available() -> bool:
+	var path := executable()
+	return not path.is_empty() and FileAccess.file_exists(path)
+
 func call_store(operation: String, secret := "") -> Dictionary:
 	if not Engine.is_editor_hint():
 		return {"ok": false, "error": "editor_only"}

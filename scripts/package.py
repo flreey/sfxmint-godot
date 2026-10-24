@@ -11,24 +11,20 @@ OUT = ROOT/'dist'
 config = configparser.ConfigParser()
 config.read(ROOT/'addons/sfxmint/plugin.cfg')
 VERSION = config['plugin']['version'].strip('"')
-REQUIRED = ['macos-arm64', 'macos-x86_64', 'windows-x86_64.exe', 'linux-x86_64', 'linux-arm64']
 
 def put(z, src, name):
     info = ZipInfo(name, (2026, 10, 23, 0, 0, 0))
     info.compress_type = ZIP_DEFLATED
     info.create_system = 3
-    mode = 0o755 if src.name.startswith('sfxmint-credentials-') else 0o644
-    info.external_attr = (0o100000 | mode) << 16
+    info.external_attr = 0o100644 << 16
     data = src.read_bytes()
     if name == "project.godot":
         data = data.replace(b'"4.7"', b'"4.6"')
     z.writestr(info, data)
 
-files = [(p, p.relative_to(ROOT).as_posix()) for p in sorted((ROOT/'addons/sfxmint').rglob('*')) if p.is_file() and (p.suffix in ['.gd', '.uid', '.cfg', '.md', '.txt', '.png'] or p.name == '.gdignore' or p.name.startswith('sfxmint-credentials-'))]
-for suffix in REQUIRED:
-    binary = ROOT/'addons/sfxmint/bin'/('sfxmint-credentials-'+suffix)
-    if not binary.is_file():
-        raise SystemExit(f'Missing required binary: {binary.name}. Build it before packaging.')
+# Asset Store downloads must not bundle precompiled programs, even when helpers
+# have been built locally. Ship only the addon's source, notices and logo.
+files = [(p, p.relative_to(ROOT).as_posix()) for p in sorted((ROOT/'addons/sfxmint').rglob('*')) if p.is_file() and 'bin' not in p.relative_to(ROOT/'addons/sfxmint').parts and p.suffix in ['.gd', '.uid', '.cfg', '.md', '.txt', '.png']]
 for name in ['README.md', 'LICENSE', 'THIRD_PARTY_NOTICES.txt', 'addons/sfxmint/README.md']:
     if not (ROOT/name).is_file():
         raise SystemExit(f'Missing documentation: {name}')

@@ -22,7 +22,12 @@ func run() -> void:
 	var panel = candidates[0]
 	panel.timer.stop()
 	var invalid_credential: Dictionary = await panel.credentials.call_store("invalid")
-	check(invalid_credential.get("error") == "invalid_request", "native credential helper pipe validates without opening a saved key")
+	var has_helper: bool = panel.credentials.available()
+	check(invalid_credential.get("error") == ("invalid_request" if has_helper else "credential_helper_unavailable"), "credential helper availability is handled without opening a saved key")
+	check(panel.remember.button_pressed == has_helper, "remember defaults to available secure storage only")
+	panel.dialogs.set_connecting(true)
+	panel.dialogs.set_connecting(false)
+	check(panel.remember.disabled == (not has_helper), "session-only installation cannot enable unavailable secure storage")
 	panel.storage = Store.new(API.DEFAULT_ORIGIN, OS.get_cache_dir().path_join("sfxmint-editor-smoke-" + str(OS.get_process_id())))
 	await panel.api._request(panel.api.origin + "/__reset", PackedStringArray(), HTTPClient.METHOD_POST, "")
 	panel.query.text = "coin"

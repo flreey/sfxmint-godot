@@ -4,13 +4,18 @@ import argparse, os, pathlib, shutil, subprocess, tempfile, zipfile
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 p = argparse.ArgumentParser()
 p.add_argument('--godot', required=True)
+p.add_argument('--archive', type=pathlib.Path, help='Test the delivered plugin ZIP instead of local addon files.')
 a = p.parse_args()
 ART = ROOT/'tests/artifacts'
 ART.mkdir(exist_ok=True)
 env = dict(os.environ, SFXMINT_TEST_ORIGIN='http://127.0.0.1:8797')
 with tempfile.TemporaryDirectory(prefix='sfxmint-editor-') as folder:
     target = pathlib.Path(folder)
-    shutil.copytree(ROOT/'addons', target/'addons')
+    if a.archive:
+        with zipfile.ZipFile(a.archive) as archive:
+            archive.extractall(target)
+    else:
+        shutil.copytree(ROOT/'addons', target/'addons')
     shutil.copytree(ROOT/'example', target/'example', ignore=shutil.ignore_patterns('.godot','addons','audio'))
     project = (ROOT/'project.godot').read_text().replace('"4.7"', '"4.6"').replace('"res://addons/sfxmint/plugin.cfg")','"res://addons/sfxmint/plugin.cfg", "res://addons/smoke/plugin.cfg")')
     (target/'project.godot').write_text(project)

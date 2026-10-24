@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.3 — 2026-10-24
+
+- Remove all precompiled credential helpers from both download ZIPs for Asset Store review. Packaging works without building helpers.
+- Use session-only account connections by default in release ZIPs; disable unavailable device storage. Optional helper source remains available for local builds.
+- Remove the thumbnail footer and enlarge the sound category text for small previews.
+- Validate delivered ZIPs for binary signatures and executable permissions, and run native editor checks against the extracted plugin archive.
+
 ## 0.2.2 — 2026-10-23
 
 First public release.

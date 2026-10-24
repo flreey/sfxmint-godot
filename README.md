@@ -8,7 +8,7 @@ Search, audition, generate and import audio without leaving the Godot editor. A 
 
 ## Install
 
-1. Download **sfxmint-godot-0.2.2-plugin.zip** from [Releases](https://github.com/flreey/sfxmint-godot/releases/latest).
+1. Download **sfxmint-godot-0.2.3-plugin.zip** from [Releases](https://github.com/flreey/sfxmint-godot/releases/latest).
 2. Extract it into your Godot project so `addons/sfxmint/plugin.cfg` exists. You can also import the ZIP using Godot's asset installation UI.
 3. Enable **Project → Project Settings → Plugins → SFXMint**.
 4. Open the **SFXMint** bottom dock and drag its upper edge to give it enough space.
@@ -37,9 +37,9 @@ Compare the returned candidates with one preview player, star favorites, choose 
 
 ## Accounts and privacy
 
-**Remember on this device** uses a small bundled credential helper to access macOS Keychain, Windows Credential Manager or Linux Secret Service. Keys are never placed in project files. Uncheck Remember for a session-only connection. You can also supply `SFXMINT_API_KEY` through the Godot process environment.
+Release ZIPs contain no precompiled programs. Account connections last for the current editor session; **Remember on this device** is disabled when no locally built credential helper is installed. Keys are never placed in project files. You can also supply `SFXMINT_API_KEY` through the Godot process environment.
 
-Helpers run only inside the editor, use standard input/output, and have no network behavior. Their Rust source and locked dependencies are in `credential-helper/`. Unsupported platforms or unavailable credential stores fall back to a session-only connection. Helpers are excluded from game exports.
+Developers can optionally build a credential helper from the included Rust source for macOS Keychain, Windows Credential Manager or Linux Secret Service. Helpers run only inside the editor, use standard input/output, and have no network behavior. Their Rust source and locked dependencies are in `credential-helper/`. Unsupported platforms or unavailable credential stores fall back to a session-only connection. Helpers are excluded from game exports.
 
 Search descriptions are sent to SFXMint for matching. Generation descriptions and explicitly uploaded/recorded source audio are sent to SFXMint when you request those actions. API keys are sent only to the SFXMint API, never to audio download hosts. Signed audio links are refreshed before download and redirects are refused. SFXMint identifies plugin requests through its client attribution. [SFXMint privacy policy](https://sfxmint.com/privacy).
 
@@ -63,13 +63,13 @@ AI coding tools assisted development of the plugin and documentation. Screenshot
 
 Godot **4.6 and 4.7** are tested on **macOS ARM64**, including native editor import, preview state, ZIP installation and offline demo playback. A real SFXMint Sound generation/download/import has also been verified.
 
-The releases include helpers for macOS ARM64/x64, Windows x64 and Linux ARM64/x64. Linux helpers require glibc 2.28+ and a working Secret Service. Intel macOS, Windows and Linux helpers were cross-compiled; native UI and credential integration on those systems have not yet been verified. Windows ARM64 and musl-only Linux do not have a bundled helper and use session-only connection.
+Release ZIPs use session-only connections on all platforms. Optional helper source supports macOS ARM64/x64, Windows x64 and Linux ARM64/x64; Linux requires a working Secret Service. Native UI and credential integration on Intel macOS, Windows and Linux have not yet been verified.
 
 Microphone capture/OS permission behavior and a complete light-theme/manual interaction pass remain unverified. See [VERIFICATION.md](VERIFICATION.md) for tested behavior and limits.
 
 ## Example
 
-Extract **sfxmint-godot-0.2.2-example.zip**, open its `project.godot`, and run `example/demo.tscn`. Press **Pick up coin** or Space. A counter increases and the included local tone plays. You can import another sound and run the same scene with it. The example keeps working after removal of the addon.
+Extract **sfxmint-godot-0.2.3-example.zip**, open its `project.godot`, and run `example/demo.tscn`. Press **Pick up coin** or Space. A counter increases and the included local tone plays. You can import another sound and run the same scene with it. The example keeps working after removal of the addon.
 
 ## Develop
 
@@ -95,11 +95,12 @@ python3 scripts/test_editor.py --godot "$GODOT"
 cargo test --manifest-path credential-helper/Cargo.toml
 ```
 
-The fixture server is loopback-only, uses synthetic keys and never calls production generation. Native editor tests require the credential helper for the current platform. Build all five helper targets before packaging:
+The fixture server is loopback-only, uses synthetic keys and never calls production generation. Native editor tests support both session-only installs and optional locally built helpers. Packaging never includes helpers and does not require Rust or a helper build:
 
 ```sh
 python3 scripts/package.py
 python3 scripts/test_package.py --godot "$GODOT"
+python3 scripts/test_editor.py --godot "$GODOT" --archive dist/sfxmint-godot-0.2.3-plugin.zip
 ```
 
 The example source keeps its fixture under `example/audio/`; packaging installs it at `audio/sfxmint/`. Use the example ZIP for the ready-to-run project. Report problems through [GitHub Issues](https://github.com/flreey/sfxmint-godot/issues), with your Godot version and operating system. Never include an API key or signed download URL in a report.

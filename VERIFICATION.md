@@ -1,3 +1,17 @@
+# Verification — 0.2.3 review fix, 2026-10-24
+
+- Both installation ZIPs contain no precompiled credential helpers. Archive checks cover executable permissions, binary extensions and PE/ELF/Mach-O/WASM signatures.
+- Packaging in a clean source tree without `bin/` produces byte-identical archives to packaging with all five helpers present locally.
+- Godot 4.6 and 4.7 on macOS ARM64: freshly extracted plugin and example ZIPs import successfully. Each version passes 47 native editor assertions against the delivered plugin ZIP, plus offline demo playback and game export isolation.
+- The no-helper UI defaults to session-only connection and keeps Remember disabled after a connection attempt. Fixture account connection, Sound/Ambience/BGM generation, preview and import pass without helpers.
+- Thumbnail footer removed; category type increased from 34px to 78px and split into two lines. SVG/PNG are synchronized; inspected at 320×180.
+- The originating repository full release suite (`npm run test:all`) passed in an isolated checkout: 130/130 JavaScript test files, keyword/package/localization checks, and 611 growth tests (3 skipped). Public source reproduces the tested ZIPs byte for byte.
+- Source and both ZIPs passed scans for known private credentials and non-fixture API keys.
+
+This release was verified with local fixtures; no new production generation was performed. Windows/Linux native behavior was not retested. Existing engine shutdown resource/scan warnings remain in the logs; assertions and process exit codes pass, with no script/parse errors.
+
+The following record describes the previous release and is retained as historical evidence. Its bundled-helper statements do not apply to 0.2.3.
+
 # Verification — 0.2.2
 
 This record separates automated fixture checks, native platform checks and production verification.
