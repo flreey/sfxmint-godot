@@ -4,11 +4,11 @@ Search, audition, generate and import audio without leaving the Godot editor. A 
 
 **Godot 4.6+ · MIT plugin · Free library access · Optional SFXMint account for generation**
 
-![SFXMint Studio in the Godot editor](https://raw.githubusercontent.com/flreey/sfxmint-godot/main/docs/media/studio.png)
+![SFXMint Studio in the Godot editor](https://raw.githubusercontent.com/sfxmint/sfxmint-godot/main/docs/media/studio.png)
 
 ## Install
 
-1. Download **sfxmint-godot-0.2.3-plugin.zip** from [Releases](https://github.com/flreey/sfxmint-godot/releases/latest).
+1. Download **sfxmint-godot-0.2.3-plugin.zip** from [Releases](https://github.com/sfxmint/sfxmint-godot/releases/latest).
 2. Extract it into your Godot project so `addons/sfxmint/plugin.cfg` exists. You can also import the ZIP using Godot's asset installation UI.
 3. Enable **Project → Project Settings → Plugins → SFXMint**.
 4. Open the **SFXMint** bottom dock and drag its upper edge to give it enough space.
@@ -103,4 +103,4 @@ python3 scripts/test_package.py --godot "$GODOT"
 python3 scripts/test_editor.py --godot "$GODOT" --archive dist/sfxmint-godot-0.2.3-plugin.zip
 ```
 
-The example source keeps its fixture under `example/audio/`; packaging installs it at `audio/sfxmint/`. Use the example ZIP for the ready-to-run project. Report problems through [GitHub Issues](https://github.com/flreey/sfxmint-godot/issues), with your Godot version and operating system. Never include an API key or signed download URL in a report.
+The example source keeps its fixture under `example/audio/`; packaging installs it at `audio/sfxmint/`. Use the example ZIP for the ready-to-run project. Report problems through [GitHub Issues](https://github.com/sfxmint/sfxmint-godot/issues), with your Godot version and operating system. Never include an API key or signed download URL in a report.

@@ -15,10 +15,10 @@ The hosted API is `https://sfxmint.com`; users do not deploy a backend. Release 
 
 ## Documentation and support
 
-- [Full guide and source](https://github.com/flreey/sfxmint-godot)
-- [Verification and supported platforms](https://github.com/flreey/sfxmint-godot/blob/main/VERIFICATION.md)
-- [Downloads](https://github.com/flreey/sfxmint-godot/releases)
-- [Report an issue](https://github.com/flreey/sfxmint-godot/issues)
+- [Full guide and source](https://github.com/sfxmint/sfxmint-godot)
+- [Verification and supported platforms](https://github.com/sfxmint/sfxmint-godot/blob/main/VERIFICATION.md)
+- [Downloads](https://github.com/sfxmint/sfxmint-godot/releases)
+- [Report an issue](https://github.com/sfxmint/sfxmint-godot/issues)
 - [Create an API key](https://sfxmint.com/dashboard/keys)
 - [Generation pricing](https://sfxmint.com/pricing)
 
